@@ -1,1 +1,2 @@
 .rvmrc
+spec/rtt_rake_spec.rb
