@@ -57,6 +57,17 @@ describe Rtt do
       tag.get_command_language.should == ("english")
     end
     
+    it "should raise an exception if language not supported" do
+      tag = Dummy.new("xy","")
+      expect {tag.get_command_language}.to raise_error
+    end
+    
+    it "should raise an exception if language not installed" do
+      tag = Dummy.new("ru","")
+      expect {tag.get_command_language}.to raise_error
+      
+    end
+    
     it "should build the correct tagging command, dependend on input language" do
       tag = Dummy.new("en","")
       tag.build_tagging_command.should == ("tree-tagger-english")

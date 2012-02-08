@@ -28,7 +28,15 @@ module Rtt
   end
   
   def get_command_language
-    language_codes[self.lang.to_sym]
+    lang = language_codes[self.lang.to_sym]
+
+    if lang.nil?
+      raise "language not supported"
+    elsif LANGUAGES[lang].nil?
+      raise "language supported, but not installed"
+    end
+    
+    lang
   end
   
   def preprocess
