@@ -4,6 +4,7 @@ module Rtt
     def self.strip_html_tags(content)
       unless content.nil?
         content.gsub!(/<\/?[^>]*>/, "")
+        content.gsub!(/&\w+;/i," ")
       end
     end
 
