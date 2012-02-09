@@ -1,22 +1,31 @@
 # coding: utf-8
+require "active_support/all"
 require "rtt/version"
 require "rtt/preprocess"
 require "rtt/tt_settings"
 
 module Rtt
-  include Rtt::Preprocess
   
-  def tagging
-    cmd = "#{TT_HOME}/cmd"
-    
-    bar = `echo #{self.content} | #{cmd}/#{build_tagging_command}`
-    
-    tagged = bar.split("\n").collect{|word| word.split("\t") }
-    
-    tagged
+  mattr_accessor :lang, :content, :origin, :tagged
+  
+  def self.set_input(input = {})
+    @@lang    = input[:lang]
+    @@content = input[:content]
   end
   
-  def build_tagging_command
+  # helpers
+  def self.print
+    p @@lang
+    p @@content
+  end
+  
+  # tagging stage related methods
+  def self.tagging
+    bar = `echo #{self.content} | #{TT_HOME}/cmd/#{build_tagging_command}`
+    @@tagged = bar.split("\n").collect{|word| word.split("\t") }
+  end
+  
+  def self.build_tagging_command
     lang = get_command_language
     if LANGUAGES[lang][:utf8]
       cmd = "tree-tagger-#{lang}-utf8"
@@ -27,7 +36,7 @@ module Rtt
     cmd
   end
   
-  def get_command_language
+  def self.get_command_language
     lang = language_codes[self.lang.to_sym]
 
     if lang.nil?
@@ -39,12 +48,13 @@ module Rtt
     lang
   end
   
-  def preprocess
-    strip_punctation_and_non_word_caracters(self.content)
-    strip_html_tags(self.content)
+  def self.preprocessing
+    @@origin = @@content
+    Preprocess.strip_punctation_and_non_word_caracters(self.content)
+    Preprocess.strip_html_tags(@@origin)
   end
   
-  def language_codes
+  def self.language_codes
     { bg: "bulgarian",
       nl: "dutch",
       en: "english",
@@ -59,4 +69,5 @@ module Rtt
       sw: "swahili"
     }
   end
+  
 end

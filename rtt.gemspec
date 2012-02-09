@@ -23,4 +23,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "yard"
   s.add_development_dependency "syntax"
   s.add_runtime_dependency "thor"
+  s.add_runtime_dependency "activesupport"
 end

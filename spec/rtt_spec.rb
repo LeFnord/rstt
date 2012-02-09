@@ -1,104 +1,117 @@
 # coding: utf-8
 require "spec_helper"
 
-class Dummy
-  include Rtt
-  
-  attr_accessor :lang, :content
-  
-  def initialize(lang = "en", content = "")
-    @lang    = lang
-    @content = content
-  end
-end
-
 describe Rtt do
-  describe "preprocessing" do
-    before(:each) do
-      dummy = Dummy.new
-      @control_1 = "Am 13.04.1899 ist es geschehen - was steht woanders. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam cursus. Morbi ut mi. Nullam enim leo, egestas id, condimentum at, laoreet mattis, massa."
-      @string    = "Am 13.04.1899 ist es geschehen – was steht woanders. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam cursus. Morbi ut mi. Nullam enim leo, egestas id, condimentum at, laoreet mattis, massa."
-      @control_2 = "Am 13.04.1899 ist es geschehen - was steht woanders. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam cursus. Morbi ut mi. Null-am e-nim leo, egestas id, condimentum at, laoreet mattis, massa."
-      @extra     = "Am 13.04.1899 ist es geschehen – was steht woanders. Lo#rem ipsum d#olor sit am%et, cons^ect$etuer adipiscing e@lit. Nam cursus. Morbi ut mi. Null-am e--nim leo, egestas id, condimentum at, laoreet mattis, massa."
-      @control_3 = "Am 13.04.1899 ist es geschehen - was steht woanders. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam cursus. Morbi ut mi. Null-am e-nim leo, egestas id, condimentum at, laoreet mattis, massa."
-      @getaggt   = "Am 13.04.1899 ist es geschehen – was steht woanders. Lo#rem ipsum d#olor sit am%et, cons^ect$etuer adipiscing e@lit. Nam cursus. Morbi ut mi. Null-am e--nim leo, egestas id, condimentum at, laoreet mattis, massa."
-    end
-
-    it "should replace a string by itself" do
-      tag = Dummy.new("en",@string)
-      tag.preprocess
-      tag.content.should == @control_1
-    end
-
-    it "should replace non alphanum caharacters within words with nothings" do
-      tag = Dummy.new("en",@extra)
-      tag.preprocess
-      tag.content.should == @control_2
-    end
-
-    describe "preprocessing:html" do
-      before(:each) do
-        path = File.join(File.dirname(__FILE__), '..', 'tmp','tmp.html')
-        @html_file = File.open(path)
+  describe "module variables" do
+    describe "responds to .." do
+      it "should respond to :lang" do
+        Rtt.respond_to?(:lang).should be_true
       end
-
-      it "should load the given html file" do
-        file = @html_file.read
-        tag = Dummy.new("en",file)
-        tag.preprocess
-        tag.content.should_not match(/<\/?[^>]*>/)
+    
+      it "should respond to :content" do
+        Rtt.respond_to?(:content).should be_true
       end
-    end
-  end
-
-  describe "tagging" do
-    it "should find the right language dependent on input" do
-      tag = Dummy.new("en","")
-      tag.get_command_language.should == ("english")
-    end
-    
-    it "should raise an exception if language not supported" do
-      tag = Dummy.new("xy","")
-      expect {tag.get_command_language}.to raise_error
-    end
-    
-    it "should raise an exception if language not installed" do
-      tag = Dummy.new("ru","")
-      expect {tag.get_command_language}.to raise_error
       
+      it "should respond to :origin" do
+        Rtt.respond_to?(:origin).should be_true
+      end
+      
+      it "should respond to :tagged" do
+        Rtt.respond_to?(:tagged).should be_true
+      end    
+    end # responds to ..
+    
+    describe "getting" do
+      it "should print both" do
+        Rtt.set_input lang: "de", content: "Das ist ein einfacher Dummy Satz."
+        Rtt.print.should be_true
+      end
     end
     
-    it "should build the correct tagging command, dependend on input language" do
-      tag = Dummy.new("en","")
-      tag.build_tagging_command.should == ("tree-tagger-english")
+    describe "setting" do
+      before(:each) do
+        @input = {lang: "de", content: "Das ist ein einfacher Dummy Satz."}
+      end
+      
+      it "should set both by :set_input " do
+        Rtt.set_input @input
+        Rtt.lang.should == @input[:lang]
+        Rtt.content.should == @input[:content]
+      end
+    end # setting
+  end # module variables
+  
+  describe "tagging stages" do
+    before(:each) do
+      @input = {lang: "de", content: "Das ist ein einfacher Dummy Satz."}
     end
     
-    it "should prefer utf8 over other" do
-      tag = Dummy.new("de","")
-      tag.build_tagging_command.should == ("tree-tagger-german-utf8")
+    it "should pos tagging on given input data" do
+      Rtt.set_input @input
+      Rtt.tagging
     end
     
-    describe "Output format" do
+    it "origin should be content after preprocessing" do
+      Rtt.set_input @input
+      Rtt.preprocessing
+      Rtt.origin.should == @input[:content]
+    end
+    
+    describe "language finding and command building" do
+      it "should find the right language dependent on input" do
+        Rtt.set_input lang: "en", content: ""
+        Rtt.get_command_language.should == ("english")
+      end
+    
+      it "should raise an exception if language not supported" do
+        Rtt.set_input lang: "xy", content: ""
+        expect {Rtt.get_command_language}.to raise_error
+      end
+    
+      it "should raise an exception if language not installed" do
+        Rtt.set_input lang: "ru", content: ""
+        expect {Rtt.get_command_language}.to raise_error
+      
+      end
+    
+      it "should build the correct tagging command, dependend on input language" do
+        Rtt.set_input lang: "en", content: ""
+        Rtt.build_tagging_command.should == ("tree-tagger-english")
+      end
+    
+      it "should prefer utf8 over other" do
+        Rtt.set_input lang: "de", content: ""
+        Rtt.build_tagging_command.should == ("tree-tagger-german-utf8")
+      end
+    end # language finding and command building
+    
+    describe "output format" do
+      before(:each) do
+        @input = {lang: "de", content: "Das ist ein einfacher Dummy Satz"}
+      end
       it "should be an array as output" do
-        tag = Dummy.new("de","Das ist ein Satz")
-        tag.preprocess
-        tag.tagging.should be_a Array
+        Rtt.set_input @input
+        Rtt.preprocessing
+        Rtt.tagging.should be_a Array
       end
       it "should have correct count" do
-        tag = Dummy.new("de","Das ist ein Satz")
-        verfifier = tag.content.split(" ").length
-        tag.preprocess
-        tag.tagging.should have(verfifier).things
+        Rtt.set_input @input
+        verfifier = @input[:content].split(" ").length
+        Rtt.preprocessing
+        Rtt.tagging
+        Rtt.tagged.should have(verfifier).things
       end
       
       # testing output format, means: for each word in given input gives an array
       # with: 1. input word, 2. tagging category, 3. lemma
       # could be done over output length
       it "should have correct output format" do
-        tag = Dummy.new("en","Das ist ein Satz")
-        tag.preprocess
-        tag.tagging.first.should have(3).things
+        Rtt.set_input @input
+        Rtt.preprocessing
+        Rtt.tagging.first.should have(3).things
       end
-    end
-  end
+    end # output format
+    
+  end # tagging stages
 end
+
