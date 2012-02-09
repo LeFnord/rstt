@@ -1,11 +1,14 @@
 # coding: utf-8
+require "celluloid"
 require "active_support/all"
+
+# own dependencies
 require "rtt/version"
 require "rtt/preprocess"
 require "rtt/tt_settings"
 
 module Rtt
-  
+  include Celluloid
   mattr_accessor :lang, :content, :origin, :tagged
   
   def self.set_input(input = {lang: "en", content: ""})
