@@ -108,10 +108,10 @@ describe Rtt do
       it "should have correct output format" do
         Rtt.set_input @input
         Rtt.preprocessing
+        Rtt::LANGUAGES
         Rtt.tagging.first.should have(3).things
       end
     end # output format
     
   end # tagging stages
 end
-

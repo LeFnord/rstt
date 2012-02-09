@@ -8,7 +8,7 @@ module Rtt
   
   mattr_accessor :lang, :content, :origin, :tagged
   
-  def self.set_input(input = {})
+  def self.set_input(input = {lang: "en", content: ""})
     @@lang    = input[:lang]
     @@content = input[:content]
   end
