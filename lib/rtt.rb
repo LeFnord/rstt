@@ -8,6 +8,7 @@ require "rtt/preprocess"
 require "rtt/tt_settings"
 
 module Rtt
+  # added celluloid for for concurrency
   include Celluloid
   mattr_accessor :lang, :content, :origin, :tagged
   
