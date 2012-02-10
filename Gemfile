@@ -9,6 +9,7 @@ group :development, :test do
   gem "syntax"
 end
 
+gem "slop"
 gem "thor"
 gem "activesupport"
 gem "celluloid"

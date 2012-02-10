@@ -1,3 +1,91 @@
 #!/usr/bin/env ruby
 
 require "rtt"
+require "slop"
+require "awesome_print"
+
+# ToDo: add task for initializing ✓
+#       add task to show installed languages ✓
+#       add preprocessing task ✓
+#       add task for running from terminal ✓
+
+opts = Slop.parse do
+  banner "Usage:
+  rtt [-c /path/to/TreeTagger] | [{-t|-p|-t -p} -l lang {-i 'input text'|-f /input/file}] | [-l]\n
+  tagging:
+  rtt -t -l <language> -i <\"input text\">
+  rtt -t -l <language> -f <path/to/file>
+  preprocessing:
+  rtt -p -l <language> -i <\"input text\">
+  rtt -p -l <language> -f <path/to/file>
+  both:
+  rtt -t -p -l <language> -i <\"input text\">
+  rtt -t -p -l <language> -f <path/to/file>\n"
+  
+  on :h, :help, "print help message" do
+    puts help
+  end
+  
+  on :c, :configure=, "configure Rtt by setting TreeTagger path and installed languages [ARG path]", optional: false do
+    print "initilizing ..\n"
+    print `thor config:init #{self[:configure]}`
+  end
+  
+  
+  on :t, :tag, "run tagger", argument: false
+  on :p, :preprocess, "clean up html sites, strip non word characters", argument: false
+  on :l, :lang=, "language [with ARG input|without ARG show]",argument: :optional, optional: true
+  on :f, "input file", optional: true, argument: true
+  on :i, "input text", optional: true, argument: true
+end
+
+# show installed languages
+if opts.l? && opts[:lang].nil? && !(opts.t? || opts.p?)
+  puts "installed languages\n(use languages codes on the left)\n"
+  Rtt.installed_language_codes.each do |lang|
+    puts lang.first.to_s + ": " + lang.last
+  end
+end
+
+# input data
+# get input from file
+if opts.f? && !opts[:f].nil?
+  @input = ""
+  input_file = opts[:f]
+  # test if file exists
+  if File.exists?(input_file)
+    File.open(input_file).each do |line|
+      @input += line.strip + " "
+    end
+  else
+    puts "not an regular file"
+  end
+
+# get STDIN
+elsif opts.i? && !opts[:i].nil?
+  @input = opts[:i]
+elsif opts.p? || opts.t?
+  puts "you must specify some input"
+end
+
+# tagging stage
+if opts.t?
+  if opts.l? && !opts[:lang].nil?
+    lang = opts[:lang]
+    Rtt.set_input lang: lang, content: @input
+  else
+    Rtt.set_input content: @input
+  end
+  
+  if opts.p?
+    Rtt.preprocessing
+  end
+  
+  Rtt.tagging
+  puts "input .."
+  puts Rtt.content
+  puts "\n"
+  Rtt.tagged.each do |tag|
+    p tag
+  end
+end

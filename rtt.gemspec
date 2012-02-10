@@ -25,4 +25,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "thor"
   s.add_runtime_dependency "activesupport"
   s.add_runtime_dependency "celluloid"
+  s.add_runtime_dependency "slop"
 end

@@ -14,7 +14,11 @@ Before you install the treetagger-ruby package please ensure you have downloaded
 
 		gem install rtt
 		thor config:init /path/to/your/TreeTagger/
-	
+
+or:
+
+		rtt -i /path/to/your/TreeTagger/
+
 USAGE
 -------------------
 

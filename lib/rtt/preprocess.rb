@@ -3,14 +3,15 @@ module Rtt
   module Preprocess
     def self.strip_html_tags(content)
       unless content.nil?
-        content.gsub!(/<\/?[^>]*>/, "")
+        content.gsub!(/\s*<\/?[^>]*>\s*/," ")
         content.gsub!(/&\w+;/i," ")
       end
     end
 
     def self.strip_punctation_and_non_word_caracters(content)
       unless content.nil?
-        content.gsub!(/[\#\%\^\$\@\(\)✗✓]{1,2}/i,'')
+        content.gsub!(/\b[\#\%\^\$\@\(\)✗✓=\/]{1,2}\b/i,'')
+        content.gsub!(/\s*[\#\%\^\$\@\(\)✗✓=\/]{1,2}\s*/i,' ')
         content.gsub!(/(–|--)/,'-')
         content.gsub!(/\s+/,' ')
         content.strip!

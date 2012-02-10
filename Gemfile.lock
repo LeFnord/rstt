@@ -4,6 +4,7 @@ PATH
     rtt (0.0.1)
       activesupport
       celluloid
+      slop
       thor
 
 GEM
@@ -24,6 +25,7 @@ GEM
     rspec-expectations (2.8.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.8.0)
+    slop (3.0.4)
     syntax (1.0.0)
     thor (0.14.6)
     yard (0.7.4)
@@ -36,6 +38,7 @@ DEPENDENCIES
   celluloid
   rspec
   rtt!
+  slop
   syntax
   thor
   yard

@@ -12,8 +12,12 @@ module Rtt
   include Celluloid
   mattr_accessor :lang, :content, :origin, :tagged
   
-  def self.set_input(input = {lang: "en", content: ""})
-    @@lang    = input[:lang]
+  def self.set_input(input = {lang: "", content: ""})
+    if input[:lang]
+      @@lang = input[:lang]
+    else
+      @@lang = "en"
+    end
     @@content = input[:content]
   end
   
@@ -54,8 +58,9 @@ module Rtt
   
   def self.preprocessing
     @@origin = @@content
-    Preprocess.strip_punctation_and_non_word_caracters(self.content)
+    # its important, that first html tags would be stripped and then non word characters
     Preprocess.strip_html_tags(@@origin)
+    Preprocess.strip_punctation_and_non_word_caracters(self.content)
   end
   
   def self.language_codes
@@ -72,6 +77,15 @@ module Rtt
       es: "spanish",
       sw: "swahili"
     }
+  end
+  
+  def self.installed_language_codes
+    installed = {}
+    language_codes.each do |lang|
+      installed[lang.first] = lang.last unless LANGUAGES[lang.last].nil?
+    end
+    
+    installed
   end
   
 end
