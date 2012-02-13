@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rtt (0.0.1)
+    rstt (0.0.1)
       activesupport
       celluloid
       slop
@@ -37,7 +37,7 @@ DEPENDENCIES
   activesupport
   celluloid
   rspec
-  rtt!
+  rstt!
   slop
   syntax
   thor

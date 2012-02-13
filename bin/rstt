@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require "rtt"
+require "rstt"
 require "slop"
 require "awesome_print"
 
@@ -11,22 +11,22 @@ require "awesome_print"
 
 opts = Slop.parse do
   banner "Usage:
-  rtt [-c /path/to/TreeTagger] | [{-t|-p|-t -p} -l lang {-i 'input text'|-f /input/file}] | [-l]\n
+  rstt [-c /path/to/TreeTagger] | [{-t|-p|-t -p} -l lang {-i 'input text'|-f /input/file}] | [-l]\n
   tagging:
-  rtt -t -l <language> -i <\"input text\">
-  rtt -t -l <language> -f <path/to/file>
+  rstt -t -l <language> -i <\"input text\">
+  rstt -t -l <language> -f <path/to/file>
   preprocessing:
-  rtt -p -l <language> -i <\"input text\">
-  rtt -p -l <language> -f <path/to/file>
+  rstt -p -l <language> -i <\"input text\">
+  rstt -p -l <language> -f <path/to/file>
   both:
-  rtt -t -p -l <language> -i <\"input text\">
-  rtt -t -p -l <language> -f <path/to/file>\n"
+  rstt -t -p -l <language> -i <\"input text\">
+  rstt -t -p -l <language> -f <path/to/file>\n"
   
   on :h, :help, "print help message" do
     puts help
   end
   
-  on :c, :configure=, "configure Rtt by setting TreeTagger path and installed languages [ARG path]", optional: false do
+  on :c, :configure=, "configure Rstt by setting TreeTagger path and installed languages [ARG path]", optional: false do
     print "initilizing ..\n"
     print `thor config:init #{self[:configure]}`
   end
@@ -42,7 +42,7 @@ end
 # show installed languages
 if opts.l? && opts[:lang].nil? && !(opts.t? || opts.p?)
   puts "installed languages\n(use languages codes on the left)\n"
-  Rtt.installed_language_codes.each do |lang|
+  Rstt.installed_language_codes.each do |lang|
     puts lang.first.to_s + ": " + lang.last
   end
 end
@@ -72,20 +72,20 @@ end
 if opts.t?
   if opts.l? && !opts[:lang].nil?
     lang = opts[:lang]
-    Rtt.set_input lang: lang, content: @input
+    Rstt.set_input lang: lang, content: @input
   else
-    Rtt.set_input content: @input
+    Rstt.set_input content: @input
   end
   
   if opts.p?
-    Rtt.preprocessing
+    Rstt.preprocessing
   end
   
-  Rtt.tagging
+  Rstt.tagging
   puts "input .."
-  puts Rtt.content
+  puts Rstt.content
   puts "\n"
-  Rtt.tagged.each do |tag|
+  Rstt.tagged.each do |tag|
     p tag
   end
 end

@@ -3,11 +3,11 @@ require "celluloid"
 require "active_support/all"
 
 # own dependencies
-require "rtt/version"
-require "rtt/preprocess"
-require "rtt/tt_settings"
+require "rstt/version"
+require "rstt/preprocess"
+require "rstt/tt_settings"
 
-module Rtt
+module Rstt
   # added celluloid for for concurrency
   include Celluloid
   mattr_accessor :lang, :content, :origin, :tagged

@@ -1,7 +1,7 @@
 # coding: utf-8
 require "spec_helper"
 
-describe Rtt do
+describe Rstt do
   describe "Preprocessing" do
     before(:each) do
       @control_1 = "Am 13.04.1899 ist es geschehen - was steht woanders. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam cursus. Morbi ut mi. Nullam enim leo, egestas id, condimentum at, laoreet mattis, massa."
@@ -18,27 +18,26 @@ describe Rtt do
     end
     
     it "should replace a string by itself" do
-      Rtt.set_input lang: "en", content: @string
-      Rtt.preprocessing
-      Rtt.content.should == @control_1
+      Rstt.set_input lang: "en", content: @string
+      Rstt.preprocessing
+      Rstt.content.should == @control_1
     end
 
     it "should replace non alphanum caharacters within words with nothings" do
-      Rtt.set_input lang: "en", content: @extra
-      Rtt.preprocessing
-      Rtt.content.should == @control_2
+      Rstt.set_input lang: "en", content: @extra
+      Rstt.preprocessing
+      Rstt.content.should == @control_2
     end
     
     it "should delete non letter characters" do
-      Rtt.set_input lang: "de", content: @real
-      Rtt.preprocessing
-      Rtt.content.should == @control_r
+      Rstt.set_input lang: "de", content: @real
+      Rstt.preprocessing
+      Rstt.content.should == @control_r
     end
     
     it "should clean up input from html and non word characters" do
-      Rtt.set_input lang: "de", content: @real_2
-      Rtt.preprocessing
-      p Rtt.content
+      Rstt.set_input lang: "de", content: @real_2
+      Rstt.preprocessing
     end
     
     describe "preprocessing:html" do
@@ -49,9 +48,9 @@ describe Rtt do
 
       it "should load the given html file" do
         file = @html_file.read
-        Rtt.set_input lang: "en", content: file
-        Rtt.preprocessing
-        Rtt.content.should_not match(/<\/?[^>]*>/)
+        Rstt.set_input lang: "en", content: file
+        Rstt.preprocessing
+        Rstt.content.should_not match(/<\/?[^>]*>/)
       end
     end
     

@@ -40,7 +40,7 @@ class Config < Thor
       languages[foos.first] = {utf8: foos.last.include?("utf")} unless foos.first.include?(".")
     end
 
-    insert_into_file "lib/rtt/tt_settings.rb", after: /^  TT_HOME = (.+)\n/ do
+    insert_into_file "lib/rstt/tt_settings.rb", after: /^  TT_HOME = (.+)\n/ do
       "  LANGUAGES = #{languages}\n"
     end
 
@@ -61,14 +61,14 @@ class Config < Thor
   private
   def insert(path)
     puts "insert path .."
-    unless File.exists?("lib/rtt/tt_settings.rb")
-      create_file "lib/rtt/tt_settings.rb" do
-"module Rtt
+    unless File.exists?("lib/rstt/tt_settings.rb")
+      create_file "lib/rstt/tt_settings.rb" do
+"module Rstt
   TT_HOME = \"#{path}\"
 end"
       end
     else
-      insert_into_file "lib/rtt/tt_settings.rb", after: "module Rtt\n" do
+      insert_into_file "lib/rstt/tt_settings.rb", after: "module Rstt\n" do
         "  TT_HOME = \"#{path}\"\n"
       end
     end
@@ -78,7 +78,7 @@ end"
   
   def remove
     puts "removing old .."
-    gsub_file "lib/rtt/tt_settings.rb", /^  TT_HOME = (.+)\n/ do |match|
+    gsub_file "lib/rstt/tt_settings.rb", /^  TT_HOME = (.+)\n/ do |match|
       match = ""
     end
     
@@ -87,20 +87,20 @@ end"
 
   def get_path
     path = ""
-    gsub_file "lib/rtt/tt_settings.rb", /^  TT_HOME = (.+)\n/ do |match|
+    gsub_file "lib/rstt/tt_settings.rb", /^  TT_HOME = (.+)\n/ do |match|
       path = match
     end
     path.chomp.split(" = ").last.gsub("\"",'')
   end
   
   def insert_require
-    insert_into_file "lib/rtt.rb", after: "require \"rtt/preprocess\"\n" do
-      "require \"rtt/tt_settings\"\n"
+    insert_into_file "lib/rstt.rb", after: "require \"rstt/preprocess\"\n" do
+      "require \"rstt/tt_settings\"\n"
     end
   end
   
   def remove_require
-    gsub_file "lib/rtt.rb", "require \"rtt/tt_settings\"" do |match|
+    gsub_file "lib/rstt.rb", "require \"rstt/tt_settings\"" do |match|
       match = ""
     end
   end

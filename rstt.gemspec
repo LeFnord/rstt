@@ -1,17 +1,17 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "rtt/version"
+require "rstt/version"
 
 Gem::Specification.new do |s|
-  s.name        = "rtt"
-  s.version     = Rtt::VERSION
+  s.name        = "rstt"
+  s.version     = Rstt::VERSION
   s.authors     = ["LeFnord"]
   s.email       = ["pscholz.le@gmail.com"]
   s.homepage    = ""
   s.summary     = %q{another ruby wrapper for Stuttgarter Tree Tagger}
   s.description = %q{another ruby wrapper for Stuttgarter Tree Tagger}
 
-  s.rubyforge_project = "rtt"
+  s.rubyforge_project = "rstt"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

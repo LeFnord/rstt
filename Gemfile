@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-# Specify your gem's dependencies in rtt.gemspec
+# Specify your gem's dependencies in rstt.gemspec
 gemspec
 
 group :development, :test do

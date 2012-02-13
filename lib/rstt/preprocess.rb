@@ -1,5 +1,5 @@
 # coding: utf-8
-module Rtt
+module Rstt
   module Preprocess
     def self.strip_html_tags(content)
       unless content.nil?
@@ -10,8 +10,8 @@ module Rtt
 
     def self.strip_punctation_and_non_word_caracters(content)
       unless content.nil?
-        content.gsub!(/\b[\#\%\^\$\@\(\)✗✓=\/]{1,2}\b/i,'')
-        content.gsub!(/\s*[\#\%\^\$\@\(\)✗✓=\/]{1,2}\s*/i,' ')
+        content.gsub!(/\b[\#\%\^\$\@\(\)✗✓=\/"']{1,2}\b/i,'')
+        content.gsub!(/\s*[\#\%\^\$\@\(\)✗✓=\/"']{1,2}\s*/i,' ')
         content.gsub!(/(–|--)/,'-')
         content.gsub!(/\s+/,' ')
         content.strip!
@@ -21,3 +21,5 @@ module Rtt
     end
   end
 end
+
+

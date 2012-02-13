@@ -1,6 +1,6 @@
 .rvmrc
-spec/rtt_rake_spec.rb
+spec/rstt_rake_spec.rb
 
-lib/rtt/tt_settings.rb
+lib/rstt/tt_settings.rb
 
 tmp/temp.html.haml
