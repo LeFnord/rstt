@@ -4,3 +4,5 @@ spec/rstt_rake_spec.rb
 lib/rstt/tt_settings.rb
 
 tmp/temp.html.haml
+todos.task
+lib/rstt/tt_settings.rb

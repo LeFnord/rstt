@@ -49,15 +49,31 @@ class Config < Thor
   desc "get_languages", "see possible languages"
   def get_languages
     languages = []
-    cmd_path = File.join(get_path, 'cmd')
-    tt_langs = File.join(cmd_path, 'tree-tagger*')
-    Dir.glob(tt_langs).each do |file|
-      languages << file.split("-")[2]
+    get_files_of_dir do |file|
+      languages << file.split("-")[2] if file.include?("tree-tagger")
     end
     
     languages.uniq
   end
-
+  
+  # desc "get_workflows", "get installed workflows"
+  # def get_workflows
+  #   puts "get workflow commands from command files"
+  #   tree_tagger_scripts = []
+  #   get_files_of_dir do |file|
+  #     tree_tagger_scripts << file
+  #   end
+  #   
+  #   tree_tagger_scripts.each do |file|
+  #     p "_____________"
+  #     p file
+  #     File.open(file).readlines.each do |line|
+  #       p line
+  #     end
+  #     p "\n"
+  #   end
+  # end
+  
   private
   def insert(path)
     puts "insert path .."
@@ -91,6 +107,21 @@ end"
       path = match
     end
     path.chomp.split(" = ").last.gsub("\"",'')
+  end
+  
+  def get_files_of_dir(dir = "cmd", pattern = "tree-tagger*")
+    cmd_path = File.join(get_path, dir, pattern)
+    Dir.glob(cmd_path).each do |file|
+      yield file
+    end
+    # Dir.glob(tt_files).each do |file|
+    #   p file
+    #   yield file
+    # end
+    
+    # Dir.entries(cmd_path).each do |file|
+    #   yield file
+    # end
   end
   
   def insert_require
