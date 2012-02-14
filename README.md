@@ -22,11 +22,10 @@ or:
 USAGE
 -------------------
 
-You have some `class`, where you want to use Rstt ..  
+1. You have some `class`, where you want to use Rstt ..  
 the input is given by: `Rstt.set_input lang: lang, content: content` with default language '`en`';  
 accessible languages could be found by `Rstt.language_codes`;  
 installed languages are stored in `Rstt::LANGUAGES` (cause it could be different)
-
 
 		class Foo
 			include Rstt
@@ -39,11 +38,11 @@ installed languages are stored in `Rstt::LANGUAGES` (cause it could be different
 			end
 		end
 
-that's all, the processed data are accessible via `Rstt.tagged`,  
-it is an Array, thereby each element self is an Array with following elements
+	that's all, the processed data are accessible via `Rstt.tagged`,  
+	it is an Array, thereby each element self is an Array with following elements
 
 	1. the input word itself
 	2. the word class
-	(3. the lemma of the input; depends on your input language)
+	3. the lemma of the input; depends on your input language
 
-
+2. or via CLI, check usage with `rstt -h`

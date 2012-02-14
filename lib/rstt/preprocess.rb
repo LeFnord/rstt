@@ -7,7 +7,7 @@ module Rstt
         content.gsub!(/&\w+;/i," ")
       end
     end
-
+    
     def self.strip_punctation_and_non_word_caracters(content)
       unless content.nil?
         content.gsub!(/\b[\#\%\^\$\@\(\)✗✓=\/"']{1,2}\b/i,'')
@@ -19,7 +19,7 @@ module Rstt
         # content.gsub!(/\s+/,' ')
       end
     end
-  end
-end
+  end # module Preprocess
+end # module Rstt
 
 

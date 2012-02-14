@@ -10,7 +10,7 @@ require "rstt/tt_settings"
 module Rstt
   # added celluloid for for concurrency
   include Celluloid
-  mattr_accessor :lang, :content, :origin, :tagged
+  mattr_accessor :lang, :content, :origin, :tagged, :sentences
   
   def self.set_input(input = {lang: "", content: ""})
     if input[:lang]
@@ -31,6 +31,10 @@ module Rstt
   def self.tagging
     bar = `echo #{self.content} | #{TT_HOME}/cmd/#{build_tagging_command}`
     @@tagged = bar.split("\n").collect{|word| word.split("\t") }
+  end
+  
+  def self.get_sentences
+    @@sentences = Preprocess.split_sentences(self.content)
   end
   
   def self.build_tagging_command
@@ -59,7 +63,7 @@ module Rstt
   def self.preprocessing
     @@origin = @@content
     # its important, that first html tags would be stripped and then non word characters
-    Preprocess.strip_html_tags(@@origin)
+    Preprocess.strip_html_tags(self.content)
     Preprocess.strip_punctation_and_non_word_caracters(self.content)
   end
   

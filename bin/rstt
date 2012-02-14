@@ -85,7 +85,7 @@ if opts.t?
   puts "input .."
   puts Rstt.content
   puts "\n"
-  # Rstt.tagged.each do |tag|
-    # p tag
-  # end
+  Rstt.tagged.each do |tag|
+    p tag
+  end
 end

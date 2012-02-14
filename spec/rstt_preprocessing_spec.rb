@@ -53,6 +53,5 @@ describe Rstt do
         Rstt.content.should_not match(/<\/?[^>]*>/)
       end
     end
-    
   end
 end
