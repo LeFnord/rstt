@@ -70,6 +70,8 @@ end
 
 # tagging stage
 if opts.t?
+  p @input.length
+  
   if opts.l? && !opts[:lang].nil?
     lang = opts[:lang]
     Rstt.set_input lang: lang, content: @input

@@ -2,13 +2,15 @@ TreeTagger for Ruby
 ===================
 
 DESCRIPTION
--------------------
+-----------
+
 The Ruby based wrapper for the TreeTagger by Helmut Schmid.
 Check it out if you are interested
 in Natural Language Processing (NLP) and Human Language Technology (HLT).
 
 INSTALLATION + REQUIREMENTS
--------------------
+---------------------------
+
 Before you install the treetagger-ruby package please ensure you have downloaded and installe the [TreeTagger](http://www.ims.uni-stuttgart.de/projekte/corplex/TreeTagger/) itself.  
 (And pls, respect his terms of license)
 
@@ -20,7 +22,7 @@ or:
 		rstt -i /path/to/your/TreeTagger/
 
 USAGE
--------------------
+-----
 
 1. You have some `class`, where you want to use Rstt ..  
 the input is given by: `Rstt.set_input lang: lang, content: content` with default language '`en`';  
@@ -46,3 +48,8 @@ installed languages are stored in `Rstt::LANGUAGES` (cause it could be different
 	3. the lemma of the input; depends on your input language
 
 2. or via CLI, check usage with `rstt -h`
+
+LICENSE
+-------
+
+see License.txt

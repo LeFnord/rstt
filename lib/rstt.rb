@@ -10,7 +10,7 @@ require "rstt/tt_settings"
 module Rstt
   # added celluloid for for concurrency
   include Celluloid
-  mattr_accessor :lang, :content, :origin, :tagged, :sentences
+  mattr_accessor :lang, :content, :origin, :tagged, :sentences, :tags
   
   def self.set_input(input = {lang: "", content: ""})
     if input[:lang]
@@ -21,16 +21,15 @@ module Rstt
     @@content = input[:content]
   end
   
-  # helpers
-  def self.print
-    p @@lang
-    p @@content
-  end
-  
   # tagging stage related methods
   def self.tagging
     bar = `echo #{self.content} | #{TT_HOME}/cmd/#{build_tagging_command}`
-    @@tagged = bar.split("\n").collect{|word| word.split("\t") }
+    # @@tagged = bar.split("\n").collect{|word| word.split("\t") }
+    @@tagged = bar.split("\n").collect do |word|
+      metrik = word.split("\t")
+      # use singular attribute names
+      {word: metrik[0], tag: metrik[1], stem: metrik[2]}
+    end
   end
   
   def self.get_sentences
@@ -92,4 +91,19 @@ module Rstt
     installed
   end
   
+  # output and processing helpers
+  def self.print
+    p @@lang
+    p @@content
+  end
+  
+  # ToDo 2012-02-25: work with `method_missing?`: DRY
+  # methods are plural @@tagged keys
+  %w(words tags stems).each do |meth|
+      self.define_singleton_method(meth) do
+        foo = []
+        @@tagged.each{ |tag| foo << tag[meth.singularize.to_sym] }
+        foo
+      end
+    end
 end
