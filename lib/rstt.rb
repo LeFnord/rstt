@@ -100,10 +100,10 @@ module Rstt
   # ToDo 2012-02-25: work with `method_missing?`: DRY
   # methods are plural @@tagged keys
   %w(words tags stems).each do |meth|
-      self.define_singleton_method(meth) do
-        foo = []
-        @@tagged.each{ |tag| foo << tag[meth.singularize.to_sym] }
-        foo
-      end
+    self.define_singleton_method(meth) do
+      foo = []
+      @@tagged.each{ |tag| foo << tag[meth.singularize.to_sym] }
+      foo
     end
+  end
 end
