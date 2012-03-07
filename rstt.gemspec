@@ -18,12 +18,12 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib","bin"]
 
-  # specify any dependencies here; for example:
   s.add_development_dependency "rspec"
   s.add_development_dependency "yard"
   s.add_development_dependency "syntax"
+
   s.add_runtime_dependency "thor"
-  s.add_runtime_dependency "activesupport"
+  s.add_runtime_dependency "active_support"
   s.add_runtime_dependency "celluloid"
   s.add_runtime_dependency "slop"
 end

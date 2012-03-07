@@ -26,7 +26,7 @@ describe Rstt do
         Rstt.set_input lang: "de", content: "Das ist ein einfacher Dummy Satz."
         Rstt.print.should be_true
       end
-    end
+    end # getting
     
     describe "setting" do
       before(:each) do

@@ -1,6 +1,7 @@
 # coding: utf-8
-require "celluloid"
+# used for: mattr_accessor
 require "active_support/all"
+require "celluloid"
 
 # own dependencies
 require "rstt/version"
@@ -30,10 +31,6 @@ module Rstt
       # use singular attribute names
       {word: metrik[0], tag: metrik[1], stem: metrik[2]}
     end
-  end
-  
-  def self.get_sentences
-    @@sentences = Preprocess.split_sentences(self.content)
   end
   
   def self.build_tagging_command
@@ -97,7 +94,7 @@ module Rstt
     p @@content
   end
   
-  # ToDo 2012-02-25: work with `method_missing?`: DRY
+  # done: (2012-03-06) 2012-02-25: work with `method_missing?`: DRY
   # methods are plural @@tagged keys
   %w(words tags stems).each do |meth|
     self.define_singleton_method(meth) do

@@ -56,40 +56,12 @@ class Config < Thor
     languages.uniq
   end
   
-  # desc "get_workflows", "get installed workflows"
-  # def get_workflows
-  #   puts "get workflow commands from command files"
-  #   tree_tagger_scripts = []
-  #   get_files_of_dir do |file|
-  #     tree_tagger_scripts << file
-  #   end
-  #   
-  #   tree_tagger_scripts.each do |file|
-  #     p "_____________"
-  #     p file
-  #     File.open(file).readlines.each do |line|
-  #       p line
-  #     end
-  #     p "\n"
-  #   end
-  # end
-  
   private
   def insert(path)
     puts "insert path .."
-    unless File.exists?("lib/rstt/tt_settings.rb")
-      create_file "lib/rstt/tt_settings.rb" do
-"module Rstt
-  TT_HOME = \"#{path}\"
-end"
-      end
-    else
-      insert_into_file "lib/rstt/tt_settings.rb", after: "module Rstt\n" do
-        "  TT_HOME = \"#{path}\"\n"
-      end
+    insert_into_file "lib/rstt/tt_settings.rb", after: "module Rstt\n" do
+      "  TT_HOME = \"#{path}\"\n"
     end
-    
-    insert_require
   end
   
   def remove
@@ -97,8 +69,6 @@ end"
     gsub_file "lib/rstt/tt_settings.rb", /^  TT_HOME = (.+)\n/ do |match|
       match = ""
     end
-    
-    remove_require
   end
 
   def get_path
@@ -113,26 +83,6 @@ end"
     cmd_path = File.join(get_path, dir, pattern)
     Dir.glob(cmd_path).each do |file|
       yield file
-    end
-    # Dir.glob(tt_files).each do |file|
-    #   p file
-    #   yield file
-    # end
-    
-    # Dir.entries(cmd_path).each do |file|
-    #   yield file
-    # end
-  end
-  
-  def insert_require
-    insert_into_file "lib/rstt.rb", after: "require \"rstt/preprocess\"\n" do
-      "require \"rstt/tt_settings\"\n"
-    end
-  end
-  
-  def remove_require
-    gsub_file "lib/rstt.rb", "require \"rstt/tt_settings\"" do |match|
-      match = ""
     end
   end
 end
