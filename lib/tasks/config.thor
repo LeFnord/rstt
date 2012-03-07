@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 class Config < Thor
   include Thor::Actions
 
@@ -86,3 +88,5 @@ class Config < Thor
     end
   end
 end
+
+Config.start
