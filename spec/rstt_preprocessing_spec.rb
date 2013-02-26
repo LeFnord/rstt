@@ -38,6 +38,7 @@ describe Rstt do
     it "should clean up input from html and non word characters" do
       Rstt.set_input lang: "de", content: @real_2
       Rstt.preprocessing
+      # FixMe: no test here!!!
     end
     
     describe "preprocessing:html" do
