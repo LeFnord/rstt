@@ -12,7 +12,7 @@ INSTALLATION + REQUIREMENTS
 ---------------------------
 
 Before you install the treetagger-ruby package please ensure you have downloaded and installe the [TreeTagger](http://www.ims.uni-stuttgart.de/projekte/corplex/TreeTagger/) itself.  
-(And pls, respect his terms of license)
+(And pls, respect his terms of license), if ENV['TREETAGGERHOME'] set
 
 		gem install rstt
 		thor config:init /path/to/your/TreeTagger/
