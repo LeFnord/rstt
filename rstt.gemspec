@@ -23,7 +23,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency "syntax"
 
   s.add_runtime_dependency "thor"
+  s.add_runtime_dependency "awesome_print"
   s.add_runtime_dependency "active_support"
+  s.add_runtime_dependency "i18n"
   s.add_runtime_dependency "celluloid"
   s.add_runtime_dependency "slop"
 end

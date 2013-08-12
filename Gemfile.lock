@@ -3,7 +3,9 @@ PATH
   specs:
     rstt (0.9.3)
       active_support
+      awesome_print
       celluloid
+      i18n
       slop
       thor
 
@@ -13,9 +15,11 @@ GEM
     active_support (3.0.0)
       activesupport (= 3.0.0)
     activesupport (3.0.0)
+    awesome_print (1.1.0)
     celluloid (0.14.1)
       timers (>= 1.0.0)
     diff-lcs (1.2.4)
+    i18n (0.6.4)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)

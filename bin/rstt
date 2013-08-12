@@ -28,7 +28,7 @@ opts = Slop.parse do
   
   on :c, :configure=, "configure Rstt by setting TreeTagger path and installed languages [ARG path]", optional: false do
     print "initilizing ..\n"
-    run = File.join(File.dirname(__FILE__), '..', 'lib','tasks','configure.rb')
+    run = File.join(File.dirname(__FILE__), '..', 'lib','tasks','configure.thor')
     print `#{run} init #{self[:configure]}`
   end
   
