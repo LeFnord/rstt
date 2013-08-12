@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rstt (0.9.3)
+    rstt (0.9.4)
       active_support
       awesome_print
       celluloid

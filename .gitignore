@@ -1,8 +1,7 @@
 .rvmrc
 
-todos.task
+todos\.*
 
-pkg/rstt-0.9.0.gem
 
 .DS_Store
 
@@ -10,3 +9,4 @@ pkg/rstt-0.9.0.gem
 
 Gemfile.lock
 Gemfile.lock
+pkg
