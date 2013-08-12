@@ -21,7 +21,7 @@ opts = Slop.parse do
   both:
   rstt -t -p -l <language> -i <\"input text\">
   rstt -t -p -l <language> -f <path/to/file>\n"
-  
+
   on :h, :help, "print help message" do
     puts help
   end
@@ -61,7 +61,6 @@ if opts.f? && !opts[:f].nil?
   else
     puts "not an regular file"
   end
-
 # get STDIN
 elsif opts.i? && !opts[:i].nil?
   @input = opts[:i]
@@ -92,3 +91,5 @@ if opts.t?
     p tag
   end
 end
+
+

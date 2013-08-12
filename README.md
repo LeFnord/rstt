@@ -15,11 +15,7 @@ Before you install the treetagger-ruby package please ensure you have downloaded
 (And pls, respect his terms of license)
 
 		gem install rstt
-		thor config:init /path/to/your/TreeTagger/
-
-or:
-
-		rstt -i /path/to/your/TreeTagger/
+		rstt -c /path/to/your/TreeTagger/
 
 USAGE
 -----
