@@ -1,6 +1,8 @@
 TreeTagger for Ruby
 ===================
 
+### !!! actual it is out of maintainance !!!
+
 DESCRIPTION
 -----------
 
